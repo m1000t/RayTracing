@@ -1,4 +1,8 @@
+#include "color.h"
+#include "vec3.h"
+
 #include <iostream>
+
 
 int main(){
 
@@ -7,22 +11,16 @@ int main(){
     int image_h = 256;
 
     //render the image 
-
+    //header for the image
     std::cout<< "P3\n" << image_w << ' ' <<  image_h << "\n255\n";
 
     for (int j = 0; j < image_h; j++){
+        // counts how many colours to render (so you know how long it takes)
+        std::clog<< "\rScanlines remaining:" << (image_h - j) << ' ' << std::flush;
         for ( int i = 0; i <image_w; i++){
-           //red colour (left to right)
-            auto r = double(i) / (image_w-1);
-           //green colour 
-        auto g = double(j)/(image_h-1);
-           //blue colour 
-        auto b = 0.0;
-
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
-        std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+        auto pixel_color = color(double(i)/(image_w-1), double(j)/(image_h-1), 0);
+            write_color(std::cout, pixel_color);
         }
     }
+    std::clog << "\rDone.                 \n";
 }
