@@ -1,61 +1,37 @@
-#ifndef VEC3_H
-#define VEC3_H
+#ifndef RAY_H
+#define RAY_H
 
 #include <cmath>
 #include <iostream>
 
 class vec3 {
 public:
-    double e[3];
+    double x, y, z;
 
-    // Constructors
-    vec3() : e{0, 0, 0} {}
-    vec3(double e0, double e1, double e2) : e{e0, e1, e2} {}
+    vec3() : x(0), y(0), z(0) {}
+    vec3(double x, double y, double z) : x(x), y(y), z(z) {}
 
-    // Accessors
-    double x() const { return e[0]; }
-    double y() const { return e[1]; }
-    double z() const { return e[2]; }
-
-    // Unary negation operator
-    vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); }
-
-    // Subscript operators
-    double operator[](int i) const { return e[i]; }
-    double& operator[](int i) { return e[i]; }
-
-    // Compound assignment operators
-    vec3& operator+=(const vec3& v) {
-        e[0] += v.e[0];
-        e[1] += v.e[1];
-        e[2] += v.e[2];
-        return *this;
+    vec3 operator+(const vec3& other) const {
+        return vec3(x + other.x, y + other.y, z + other.z);
     }
 
-    vec3& operator*=(double t) {
-        e[0] *= t;
-        e[1] *= t;
-        e[2] *= t;
-        return *this;
+    vec3 operator-(const vec3& other) const {
+        return vec3(x - other.x, y - other.y, z - other.z);
     }
 
-    vec3& operator/=(double t) {
-        return *this *= 1 / t;
+    vec3 operator*(double t) const {
+        return vec3(x * t, y * t, z * t);
     }
 
-    // Length and length squared
-    double length() const {
-        return std::sqrt(length_squared());
+    // Friend function for scalar multiplication on the left
+    friend vec3 operator*(double t, const vec3& v) {
+        return vec3(v.x * t, v.y * t, v.z * t);
     }
 
-    double length_squared() const {
-        return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
-    }
-
-    // Print function
-    void print() const {
-        std::cout << "(" << e[0] << ", " << e[1] << ", " << e[2] << ")" << std::endl;
-    }
+    // Member functions to access components
+    double getX() const { return x; }
+    double getY() const { return y; }
+    double getZ() const { return z; }
 };
 
-#endif // VEC3_H
+#endif // RAY_H
